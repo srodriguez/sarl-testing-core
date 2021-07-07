@@ -9,7 +9,9 @@
 
 	<properties>
 		<sarl.version>${project.version}</sarl.version>
+		<janus.version>3.${sarl.version}</janus.version>
 		<junit.version>5.6.0</junit.version>
+		<mockito.version>3.11.2</mockito.version>
 		<target.jdk.version>1.8</target.jdk.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
@@ -19,7 +21,7 @@
 			<dependency>
 				<groupId>org.mockito</groupId>
 				<artifactId>mockito-core</artifactId>
-				<version>3.6.0</version>
+				<version>${mockito.version}</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
@@ -44,11 +46,12 @@
 			<artifactId>io.sarl.maven.sdk</artifactId>
 			<version>${sarl.version}</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/io.janusproject/io.janusproject.kernel -->
+
+
 		<dependency>
 			<groupId>io.janusproject</groupId>
 			<artifactId>io.janusproject.kernel</artifactId>
-			<version>2.0.10.1</version>
+			<version>${janus.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
@@ -60,7 +63,12 @@
 			<artifactId>junit-jupiter-engine</artifactId>
 			<scope>test</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			
+			<scope>test</scope>
+		</dependency>
 
 	</dependencies>
 

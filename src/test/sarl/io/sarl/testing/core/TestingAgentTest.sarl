@@ -3,16 +3,84 @@
  */
 package io.sarl.testing.core
 
+import io.sarl.testing.core.stubs.Behave1
+import io.sarl.testing.core.stubs.Cap1
+import io.sarl.testing.core.stubs.DelegateCap
+import io.sarl.testing.core.stubs.DelegateCapSkill
+import io.sarl.testing.core.stubs.E_Call_ActionEmpty
+import io.sarl.testing.core.stubs.E_Call_Delegate
+import io.sarl.testing.core.stubs.E_DoNothing
+import io.sarl.testing.core.stubs.Skill1
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+
+import static org.junit.jupiter.api.Assertions.assertNotNull
+import static org.mockito.ArgumentMatchers.*
+import static org.mockito.Mockito.*
 
 /** 
  * @author Sebastian Rodriguez
  * 
  */
 class TestingAgentTest {
-	
+
+	var agt : TestingAgent
+	val skill1Mock = spy(Skill1)
+
+	@BeforeEach
+	def setup {
+		this.agt = new TestingAgent
+		agt.withSkill(skill1Mock, Cap1)
+		agt.registerBehavior(new Behave1(agt))
+	}
+
 	@Test
 	def should_instantiate {
-		val agt = new TestingAgent
+		assertNotNull(agt)
 	}
+
+	@Test
+	def should_set_skill : void {
+		
+		
+		verify(skill1Mock).install
+	}
+
+	@Test
+	def should_register_behaviors {
+		
+	}
+
+	@Test
+	def should_not_call_skills_if_behavior_doesnt : void {
+		
+		agt.perceive(new E_DoNothing)
+		
+		verify(skill1Mock, never).actionEmpty
+		verify(skill1Mock, never).actionWithReturn
+		verify(skill1Mock, never).actionWithParamAndReutrn(anyInt)
+
+	}
+
+	@Test
+	def should_call_skills_if_behavior_calls : void {
+		agt.perceive(new E_Call_ActionEmpty)
+		
+		verify(skill1Mock).actionEmpty
+	}
+	
+	@Test
+	def should_follow_inter_capacity_calls : void {
+		
+		
+		val del = spy(DelegateCapSkill)
+		
+		agt.withSkill(del, DelegateCap)
+		
+		agt.perceive(new E_Call_Delegate)
+		
+		verify(del).callCap1ActionEmpty
+		verify(skill1Mock).actionEmpty
+	}
+
 }

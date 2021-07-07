@@ -1,0 +1,67 @@
+package io.sarl.testing.core.stubs
+
+capacity Cap1 {
+	def actionEmpty
+
+	def actionWithReturn : boolean
+
+	def actionWithParamAndReutrn(param : int) : String
+}
+
+skill Skill1 implements Cap1 {
+
+	def actionEmpty {
+	}
+
+	def actionWithReturn : boolean {
+		return false
+	}
+
+	def actionWithParamAndReutrn(param : int) : String {
+		return "Param was " + int
+	}
+	
+	override install {
+		
+	}
+	
+
+}
+
+
+capacity DelegateCap {
+	def callCap1ActionEmpty
+}
+
+skill DelegateCapSkill implements DelegateCap {
+	
+	uses Cap1
+	
+	def callCap1ActionEmpty {
+		actionEmpty
+	}
+	
+}
+
+event E_DoNothing
+
+event E_Call_ActionEmpty
+
+event E_Call_Delegate
+
+behavior Behave1 {
+	
+	uses Cap1, DelegateCap
+	
+	on E_DoNothing {
+		//should not call anything
+	}
+	
+	on E_Call_ActionEmpty {
+		actionEmpty	
+	}
+	
+	on E_Call_Delegate {
+		callCap1ActionEmpty
+	}
+}

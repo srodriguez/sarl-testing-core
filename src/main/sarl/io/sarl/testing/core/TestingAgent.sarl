@@ -1,6 +1,5 @@
 package io.sarl.testing.core
 
-import io.janusproject.kernel.bic.internaleventdispatching.AgentInternalEventsDispatcher
 import io.sarl.lang.core.Address
 import io.sarl.lang.core.Behavior
 import io.sarl.lang.core.Capacity
@@ -8,16 +7,26 @@ import io.sarl.lang.core.Event
 import io.sarl.lang.core.EventSpaceSpecification
 import io.sarl.lang.core.Skill
 import io.sarl.lang.core.SpaceID
+import io.sarl.sre.capacities.InternalSchedules
+import io.sarl.sre.internal.eventguard.BehaviorGuardEvaluatorRegistry
+import io.sarl.sre.skills.internal.EventBus
 import java.util.UUID
+import java.util.function.Supplier
+import io.sarl.sre.skills.bic.SchedulesSkill
 
 /** 
  * @author Sebastian Rodriguez
  * 
  */
 agent TestingAgent {
-	val executor = new TestingExecutorService
-
-	val eventBus = new AgentInternalEventsDispatcher(this.executor)
+	val sup = new Supplier<InternalSchedules> {
+	
+	def get : InternalSchedules {
+		new SchedulesSkill(new TestingExecutorService)
+	}
+	
+}
+	val eventBus = new EventBus(sup, new BehaviorGuardEvaluatorRegistry)
 
 	val defaultAddress = new Address(new SpaceID(this.ID, UUID.randomUUID, EventSpaceSpecification), this.ID)
 
@@ -40,7 +49,7 @@ agent TestingAgent {
 	}
 
 	def perceive(e : Event) {
-		this.eventBus.immediateDispatch(e)
+		this.eventBus.immediateDispatch(e,true)
 	}
 
 }
