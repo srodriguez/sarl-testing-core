@@ -1,0 +1,37 @@
+package io.sarl.testing.core
+
+import io.sarl.core.Behaviors
+import io.sarl.lang.core.Address
+import io.sarl.lang.core.Behavior
+import io.sarl.lang.core.Event
+import io.sarl.lang.core.EventListener
+import io.sarl.lang.core.Scope
+import java.util.concurrent.ConcurrentLinkedDeque
+
+skill StubBehaviors implements Behaviors{
+	
+	def asEventListener : EventListener {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	def getRegisteredBehaviors : ConcurrentLinkedDeque<Behavior> {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	def hasRegisteredBehavior : boolean {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	def registerBehavior(attitude : Behavior, filter : (Event)=>Boolean = null, initializationParameters : Object*) : Behavior {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	def unregisterBehavior(attitude : Behavior) : Behavior {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	def wake(^event : Event, scope : Scope<Address> = null) {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+}

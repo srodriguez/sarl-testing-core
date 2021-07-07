@@ -1,0 +1,56 @@
+/** 
+ * 
+ */
+package io.sarl.testing.core
+
+import io.sarl.lang.core.Agent
+import io.sarl.lang.core.AgentTrait
+import io.sarl.lang.core.Behavior
+import io.sarl.lang.core.Capacity
+import io.sarl.lang.core.Event
+import io.sarl.lang.core.Skill
+
+/** 
+ * Extensions to simply agent testings.
+ * 
+ * It has proven most effective to use spies instead of mocks.
+ * 
+ */
+class SarlTestExtensions {
+
+	/** 
+	 * Add a particular skill to the testing agent
+	 * 
+	 */
+	def static withSkill(agt : TestingAgent, s : Skill, cap : Class<? extends Capacity>) : TestingAgent {
+		agt.withSkill(s, cap)
+	}
+
+	def static withBehavior(agt : TestingAgent, behaviorClass : Class<? extends Behavior>) : TestingAgent {
+		val b = behaviorClass.getConstructor(Agent).newInstance(agt)
+		addBehavior(agt, b)
+	}
+
+	def static addBehavior(agt : TestingAgent, b : Behavior) : TestingAgent {
+		agt.registerBehavior(b)
+		agt
+	}
+
+	/** 
+	 * Make the agent perceive an Event. Source of event is not modified. The source of the event is NULL the agent will not consider it from self.
+	 * 
+	 * 
+	 */
+	def static perceive(agt : TestingAgent, e : Event) {
+		agt.perceive(e)
+	}
+
+	/** 
+	 * Modify (overwrite) the source of the Event to match the {@link AgentTrait#isFromMe) condition. 
+	 */
+	def static perceiveFromSelf(agt : TestingAgent, e : Event) {
+		e.source = agt.defaultAddress
+		agt.perceive(e)
+	}
+
+}

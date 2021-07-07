@@ -1,0 +1,46 @@
+package io.sarl.testing.core
+
+import io.janusproject.kernel.bic.internaleventdispatching.AgentInternalEventsDispatcher
+import io.sarl.lang.core.Address
+import io.sarl.lang.core.Behavior
+import io.sarl.lang.core.Capacity
+import io.sarl.lang.core.Event
+import io.sarl.lang.core.EventSpaceSpecification
+import io.sarl.lang.core.Skill
+import io.sarl.lang.core.SpaceID
+import java.util.UUID
+
+/** 
+ * @author Sebastian Rodriguez
+ * 
+ */
+agent TestingAgent {
+	val executor = new TestingExecutorService
+
+	val eventBus = new AgentInternalEventsDispatcher(this.executor)
+
+	val defaultAddress = new Address(new SpaceID(this.ID, UUID.randomUUID, EventSpaceSpecification), this.ID)
+
+	new() {
+		super(UUID.randomUUID, UUID.randomUUID)
+
+	}
+
+	def getDefaultAddress : Address {
+		this.defaultAddress
+	}
+
+	def withSkill(s : Skill, cap : Class<? extends Capacity>) : TestingAgent {
+		setSkill(s, cap)
+		this
+	}
+
+	def registerBehavior(b : Behavior) {
+		this.eventBus.register(b, null, null)
+	}
+
+	def perceive(e : Event) {
+		this.eventBus.immediateDispatch(e)
+	}
+
+}

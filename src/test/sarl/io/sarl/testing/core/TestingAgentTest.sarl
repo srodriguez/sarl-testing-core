@@ -1,0 +1,18 @@
+/** 
+ * 
+ */
+package io.sarl.testing.core
+
+import org.junit.jupiter.api.Test
+
+/** 
+ * @author Sebastian Rodriguez
+ * 
+ */
+class TestingAgentTest {
+	
+	@Test
+	def should_instantiate {
+		val agt = new TestingAgent
+	}
+}

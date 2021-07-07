@@ -1,0 +1,124 @@
+/** 
+ * 
+ */
+package io.sarl.testing.core
+
+import io.janusproject.services.executor.ExecutorService
+import java.util.concurrent.TimeUnit
+import java.util.concurrent.ScheduledFuture
+import java.util.concurrent.Callable
+import java.util.concurrent.Future
+import java.util.Collection
+import com.google.common.util.concurrent.Service
+import com.google.common.util.concurrent.Service.Listener
+import java.util.concurrent.Executor
+import java.util.concurrent.TimeoutException
+import com.google.common.util.concurrent.Service.State
+import java.util.concurrent.Executors
+
+/** 
+ * @author Sebastian Rodriguez
+ * 
+ */
+class TestingExecutorService implements ExecutorService {
+	val  exec = Executors.newFixedThreadPool(2);
+	
+	def execute(task : Runnable) {
+		this.exec.execute(task)
+	}
+	
+	def executeMultipleTimesInParallelAndWaitForTermination(task : Runnable, nbExecutions : int, runGroupSize : int) : int throws InterruptedException {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	def getExecutorService : java.util.concurrent.ExecutorService {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	def purge {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	def schedule(command : Runnable, delay : long, unit : TimeUnit) : ScheduledFuture<?> {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	def schedule(command : Callable<T>, delay : long, unit : TimeUnit) : ScheduledFuture<T> with T {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	def scheduleAtFixedRate(command : Runnable, initialDelay : long, period : long, unit : TimeUnit) : ScheduledFuture<?> {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	def scheduleWithFixedDelay(command : Runnable, initialDelay : long, delay : long, unit : TimeUnit) : ScheduledFuture<?> {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	
+	
+	def submit(task : Runnable) : Future<?> {
+		this.exec.submit(task)
+	}
+	
+	def submit(task : Callable<T>) : Future<T> with T {
+		this.exec.submit(task)
+	}
+	
+	def submit(task : Runnable, result : T) : Future<T> with T {
+		this.exec.submit(task, result)
+	}
+	
+	def getServiceDependencies : Collection<Class<? extends Service>> {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	def getServiceType : Class<? extends Service> {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	def getServiceWeakDependencies : Collection<Class<? extends Service>> {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	def addListener(listener : Listener, executor : Executor) {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	def awaitRunning {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	def awaitRunning(timeout : long, unit : TimeUnit) throws TimeoutException {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	def awaitTerminated {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	def awaitTerminated(timeout : long, unit : TimeUnit) throws TimeoutException {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	def failureCause : Throwable {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	def isRunning : boolean {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	def startAsync : Service {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	def state : State {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	def stopAsync : Service {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+}
