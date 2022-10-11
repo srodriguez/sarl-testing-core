@@ -13,8 +13,21 @@ import io.sarl.sre.skills.internal.EventBus
 import java.util.UUID
 import java.util.function.Supplier
 import io.sarl.sre.skills.bic.SchedulesSkill
+import io.sarl.core.Logging
 
 /** 
+ * Agent Harness to unit test behaviors, skill and capacities.
+ * 
+ * This is <b>not</b> a fully executable agent, but a stub that allows for unit testing only.
+ * 
+ * In provides the following 'pre-installed' stubs for the built-in capacities
+ * 
+ * <ul>
+ * <li>Logging</li>
+ * </ul>
+ * 
+ * Other BICs must be install before the tests.
+ * 
  * @author Sebastian Rodriguez
  * 
  */
@@ -32,7 +45,7 @@ agent TestingAgent {
 
 	new() {
 		super(UUID.randomUUID, UUID.randomUUID)
-
+		setSkill(new LoggingStub, Logging)
 	}
 
 	def getDefaultAddress : Address {

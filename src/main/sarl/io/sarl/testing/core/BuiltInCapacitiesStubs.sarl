@@ -7,31 +7,161 @@ import io.sarl.lang.core.Event
 import io.sarl.lang.core.EventListener
 import io.sarl.lang.core.Scope
 import java.util.concurrent.ConcurrentLinkedDeque
+import io.sarl.core.Logging
+import java.util.function.Supplier
+import java.util.logging.Logger
+import java.util.logging.Level
 
-skill StubBehaviors implements Behaviors{
-	
+skill BehaviorsStub implements Behaviors {
+
 	def asEventListener : EventListener {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
-	
+
 	def getRegisteredBehaviors : ConcurrentLinkedDeque<Behavior> {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
-	
+
 	def hasRegisteredBehavior : boolean {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
-	
-	def registerBehavior(attitude : Behavior, filter : (Event)=>Boolean = null, initializationParameters : Object*) : Behavior {
+
+	def registerBehavior(attitude : Behavior, filter : (Event)=>Boolean = null,
+		initializationParameters : Object*) : Behavior {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
-	
+
 	def unregisterBehavior(attitude : Behavior) : Behavior {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
-	
+
 	def wake(^event : Event, scope : Scope<Address> = null) {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
-	
+
+}
+
+skill LoggingStub implements Logging {
+
+	val logger = Logger.getLogger(LoggingStub.toString)
+
+	def debug(messageProvider : Supplier<String>) {
+		this.logger.log(Level::CONFIG, messageProvider)
+	}
+
+	def debug(message : Object, parameters : Object*) {
+		this.logger.log(Level::CONFIG, message.toString, parameters)
+	}
+
+	def error(messageProvider : Supplier<String>) {
+		this.logger.log(Level::SEVERE, messageProvider)
+	}
+
+	def error(message : Object, exception : Throwable = null, parameters : Object*) {
+		this.logger.log(Level::SEVERE, message.toString, parameters)
+	}
+
+	def warning(messageProvider : Supplier<String>) {
+		this.logger.log(Level::WARNING, messageProvider)
+	}
+
+	def warning(message : Object, exception : Throwable = null, parameters : Object*) {
+		this.logger.log(Level::WARNING, message.toString, parameters)
+	}
+
+	def info(messageProvider : Supplier<String>) {
+		this.logger.log(Level::INFO, messageProvider)
+	}
+
+	def info(message : Object, parameters : Object*) {
+		this.logger.log(Level::INFO, message.toString, parameters)
+	}
+
+	def getLogLevel : int {
+
+			/* 
+			 * 0 or lower for no logging,
+			 * 1 for error,
+			 * 2 for warning,
+			 * 3 for info,
+			 * 4 or higher for debug.
+			 */
+		switch (this.logger.level) {
+			case Level::OFF: {
+				return 0
+			}
+			case Level::SEVERE: {
+				return 1
+			}
+			case Level::WARNING: {
+				return 2
+			}
+			case Level::INFO: {
+				return 3
+			}
+			default: {
+				return 4
+			}
+		}
+	}
+
+	def println(message : Object) {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+
+	def setLoggingName(name : String) {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+
+	def setLogLevel(level : int) {
+
+			/* 
+			 * 0 or lower for no logging,
+			 * 1 for error,
+			 * 2 for warning,
+			 * 3 for info,
+			 * 4 or higher for debug.
+			 */
+		var obj : Level
+		switch (level) {
+			case 1: {
+				obj = Level::SEVERE
+			}
+			case 2: {
+				obj = Level::WARNING
+			}
+			case 3: {
+				obj = Level::INFO
+			}
+			default: {
+				if (level <= 0) {
+					obj = Level::OFF
+				} else {
+					obj = Level::FINE
+				}
+			}
+		}
+		this.logger.level = obj
+	}
+
+	def getLogger : Logger {
+		this.logger
+	}
+
+	def isErrorLogEnabled : boolean {
+		this.logger.isLoggable(Level::SEVERE)
+	}
+
+	def isWarningLogEnabled : boolean {
+		this.logger.isLoggable(Level::WARNING)
+	}
+
+	def isInfoLogEnabled : boolean {
+		this.logger.isLoggable(Level::INFO)
+	}
+
+	def isDebugLogEnabled : boolean {
+		this.logger.isLoggable(Level::CONFIG)
+	}
+
 }
