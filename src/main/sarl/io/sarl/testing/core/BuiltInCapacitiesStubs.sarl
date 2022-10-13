@@ -11,6 +11,14 @@ import io.sarl.core.Logging
 import java.util.function.Supplier
 import java.util.logging.Logger
 import java.util.logging.Level
+import io.sarl.core.DefaultContextInteractions
+import io.sarl.lang.core.AgentContext
+import io.sarl.lang.core.EventSpace
+import java.util.UUID
+import io.sarl.lang.core.Space
+import io.sarl.lang.core.SpaceID
+import io.sarl.lang.core.Agent
+import io.sarl.core.AgentSpawned
 
 skill BehaviorsStub implements Behaviors {
 
@@ -164,4 +172,57 @@ skill LoggingStub implements Logging {
 		this.logger.isLoggable(Level::CONFIG)
 	}
 
+}
+
+
+skill DefaultContextInteractionsStub implements DefaultContextInteractions{
+	
+	def emit(^event : Event, scope : Scope<Address> = null) {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	def getDefaultAddress : Address {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	def getDefaultContext : AgentContext {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	def getDefaultSpace : EventSpace {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	def isDefaultContext(context : AgentContext) : boolean {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	def isDefaultContext(contextID : UUID) : boolean {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	def isDefaultSpace(^space : Space) : boolean {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	def isDefaultSpace(^space : SpaceID) : boolean {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	def isDefaultSpace(^space : UUID) : boolean {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	def isInDefaultSpace(^event : Event) : boolean {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	def spawn(agentType : Class<? extends Agent>, params : Object*) : UUID fires AgentSpawned {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	def willReceive(receiver : UUID, ^event : Event) {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
 }
