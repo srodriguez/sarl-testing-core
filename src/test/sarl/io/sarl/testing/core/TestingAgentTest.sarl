@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test
 import static org.junit.jupiter.api.Assertions.assertNotNull
 import static org.mockito.ArgumentMatchers.*
 import static org.mockito.Mockito.*
+import io.sarl.testing.core.stubs.BehaviorWithInit
 
 /** 
  * @author Sebastian Rodriguez
@@ -46,10 +47,6 @@ class TestingAgentTest {
 		verify(skill1Mock).install
 	}
 
-	@Test
-	def should_register_behaviors {
-		
-	}
 
 	@Test
 	def should_not_call_skills_if_behavior_doesnt : void {
@@ -81,6 +78,13 @@ class TestingAgentTest {
 		
 		verify(del).callCap1ActionEmpty
 		verify(skill1Mock).actionEmpty
+	}
+	
+	@Test
+	def should_trigger_init_on_behaviors{
+		
+		agt.registerBehavior(new BehaviorWithInit(this.agt))
+		verify(this.skill1Mock).actionEmpty
 	}
 
 }

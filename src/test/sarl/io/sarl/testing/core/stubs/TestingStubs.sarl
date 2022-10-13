@@ -1,5 +1,7 @@
 package io.sarl.testing.core.stubs
 
+import io.sarl.core.Initialize
+
 capacity Cap1 {
 	def actionEmpty
 
@@ -20,27 +22,24 @@ skill Skill1 implements Cap1 {
 	def actionWithParamAndReutrn(param : int) : String {
 		return "Param was " + int
 	}
-	
+
 	override install {
-		
 	}
-	
 
 }
-
 
 capacity DelegateCap {
 	def callCap1ActionEmpty
 }
 
 skill DelegateCapSkill implements DelegateCap {
-	
+
 	uses Cap1
-	
+
 	def callCap1ActionEmpty {
 		actionEmpty
 	}
-	
+
 }
 
 event E_DoNothing
@@ -50,18 +49,26 @@ event E_Call_ActionEmpty
 event E_Call_Delegate
 
 behavior Behave1 {
-	
+
 	uses Cap1, DelegateCap
-	
+
 	on E_DoNothing {
-		//should not call anything
+		// should not call anything
 	}
-	
+
 	on E_Call_ActionEmpty {
-		actionEmpty	
+		actionEmpty
 	}
-	
+
 	on E_Call_Delegate {
 		callCap1ActionEmpty
+	}
+}
+
+behavior BehaviorWithInit {
+	uses Cap1
+
+	on Initialize {
+		actionEmpty
 	}
 }

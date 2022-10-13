@@ -14,6 +14,7 @@ import java.util.UUID
 import java.util.function.Supplier
 import io.sarl.sre.skills.bic.SchedulesSkill
 import io.sarl.core.Logging
+import io.sarl.core.Initialize
 
 /** 
  * Agent Harness to unit test behaviors, skill and capacities.
@@ -33,12 +34,12 @@ import io.sarl.core.Logging
  */
 agent TestingAgent {
 	val sup = new Supplier<InternalSchedules> {
-	
-	def get : InternalSchedules {
-		new SchedulesSkill(new TestingExecutorService)
+
+		def get : InternalSchedules {
+			new SchedulesSkill(new TestingExecutorService)
+		}
+
 	}
-	
-}
 	val eventBus = new EventBus(sup, new BehaviorGuardEvaluatorRegistry)
 
 	val defaultAddress = new Address(new SpaceID(this.ID, UUID.randomUUID, EventSpaceSpecification), this.ID)
@@ -58,11 +59,15 @@ agent TestingAgent {
 	}
 
 	def registerBehavior(b : Behavior) {
-		this.eventBus.register(b, null, null)
+		registerBehavior(b,[])
 	}
 
+	def registerBehavior(b : Behavior, params: Object*) {
+		this.eventBus.register(b, null, null)
+		this.eventBus.immediateDispatchTo(b, new Initialize(this.ID,params), true)
+	}
 	def perceive(e : Event) {
-		this.eventBus.immediateDispatch(e,true)
+		this.eventBus.immediateDispatch(e, true)
 	}
 
 }
