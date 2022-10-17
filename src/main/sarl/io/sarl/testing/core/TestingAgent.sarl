@@ -15,6 +15,9 @@ import java.util.function.Supplier
 import io.sarl.sre.skills.bic.SchedulesSkill
 import io.sarl.core.Logging
 import io.sarl.core.Initialize
+import static org.mockito.Mockito.*
+import org.eclipse.xtend.lib.annotations.Accessors
+import io.sarl.core.Behaviors
 
 /** 
  * Agent Harness to unit test behaviors, skill and capacities.
@@ -44,9 +47,17 @@ agent TestingAgent {
 
 	val defaultAddress = new Address(new SpaceID(this.ID, UUID.randomUUID, EventSpaceSpecification), this.ID)
 
+
+	//BICs for support
+	
+	@Accessors(PUBLIC_GETTER) val logging = spy(LoggingStub)
+	@Accessors(PUBLIC_GETTER) val behaviors = spy(BehaviorsStub)
+	
 	new() {
 		super(UUID.randomUUID, UUID.randomUUID)
-		setSkill(new LoggingStub, Logging)
+		setSkill(logging, Logging)
+		setSkill(behaviors, Behaviors)
+		doNothing.when(this.behaviors).wake(any(Event))
 	}
 
 	def getDefaultAddress : Address {

@@ -42,17 +42,15 @@ class TestingAgentTest {
 
 	@Test
 	def should_set_skill : void {
-		
-		
+
 		verify(skill1Mock).install
 	}
 
-
 	@Test
 	def should_not_call_skills_if_behavior_doesnt : void {
-		
+
 		agt.perceive(new E_DoNothing)
-		
+
 		verify(skill1Mock, never).actionEmpty
 		verify(skill1Mock, never).actionWithReturn
 		verify(skill1Mock, never).actionWithParamAndReutrn(anyInt)
@@ -62,29 +60,33 @@ class TestingAgentTest {
 	@Test
 	def should_call_skills_if_behavior_calls : void {
 		agt.perceive(new E_Call_ActionEmpty)
-		
+
 		verify(skill1Mock).actionEmpty
 	}
-	
+
 	@Test
 	def should_follow_inter_capacity_calls : void {
-		
-		
+
 		val del = spy(DelegateCapSkill)
-		
+
 		agt.withSkill(del, DelegateCap)
-		
+
 		agt.perceive(new E_Call_Delegate)
-		
+
 		verify(del).callCap1ActionEmpty
 		verify(skill1Mock).actionEmpty
 	}
-	
+
 	@Test
-	def should_trigger_init_on_behaviors{
-		
+	def should_trigger_init_on_behaviors {
+
 		agt.registerBehavior(new BehaviorWithInit(this.agt))
 		verify(this.skill1Mock).actionEmpty
 	}
 
+	@Test
+	def should_expose_behaviors_bic {
+		this.agt.behaviors.wake(new E_DoNothing)
+		verify(this.agt.behaviors).wake(any(E_DoNothing))
+	}
 }
