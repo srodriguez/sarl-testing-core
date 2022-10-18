@@ -50,14 +50,15 @@ agent TestingAgent {
 
 	//BICs for support
 	
-	@Accessors(PUBLIC_GETTER) val logging = spy(LoggingStub)
-	@Accessors(PUBLIC_GETTER) val behaviors = spy(BehaviorsStub)
+	package val schedulesStub = spy(sup.get)
+	package val logging = spy(LoggingStub)
+	package val behaviorStub = spy(BehaviorsStub)
 	
 	new() {
 		super(UUID.randomUUID, UUID.randomUUID)
 		setSkill(logging, Logging)
-		setSkill(behaviors, Behaviors)
-		doNothing.when(this.behaviors).wake(any(Event))
+		setSkill(behaviorStub, Behaviors)
+		doNothing.when(this.behaviorStub).wake(any(Event))
 	}
 
 	def getDefaultAddress : Address {

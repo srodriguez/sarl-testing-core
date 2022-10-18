@@ -83,10 +83,4 @@ class TestingAgentTest {
 		agt.registerBehavior(new BehaviorWithInit(this.agt))
 		verify(this.skill1Mock).actionEmpty
 	}
-
-	@Test
-	def should_expose_behaviors_bic {
-		this.agt.behaviors.wake(new E_DoNothing)
-		verify(this.agt.behaviors).wake(any(E_DoNothing))
-	}
 }
