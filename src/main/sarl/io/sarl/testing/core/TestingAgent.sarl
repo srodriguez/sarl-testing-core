@@ -8,7 +8,7 @@ import io.sarl.lang.core.EventSpaceSpecification
 import io.sarl.lang.core.Skill
 import io.sarl.lang.core.SpaceID
 import io.sarl.sre.capacities.InternalSchedules
-import io.sarl.sre.internal.eventguard.BehaviorGuardEvaluatorRegistry
+//import io.sarl.sre.internal.eventguard.BehaviorGuardEvaluatorRegistry
 import io.sarl.sre.skills.internal.EventBus
 import java.util.UUID
 import java.util.function.Supplier
@@ -18,6 +18,24 @@ import io.sarl.core.Initialize
 import static org.mockito.Mockito.*
 import org.eclipse.xtend.lib.annotations.Accessors
 import io.sarl.core.Behaviors
+import io.sarl.sre.internal.eventguard.reflect.ReflectBehaviorGuardEvaluatorRegistry
+import javax.inject.Provider
+import io.sarl.sre.internal.Factories
+import io.sarl.sre.internal.ConfigurableAgentInjector
+import io.sarl.sre.internal.TaskAgentFailureEventEmitterFactory
+import io.sarl.sre.boot.internal.internal.ConfigurableAgentInjectorModuleProvider
+import io.sarl.sre.boot.internal.internal.ConfigurableAgentInjectorModule
+import io.sarl.sre.internal.NopConfigurableAgentInjector
+import io.sarl.lang.util.DefaultConcurrentCollectionFactory
+import java.util.concurrent.locks.ReadWriteLock
+import javax.inject.Inject
+import io.sarl.lang.util.ConcurrentCollectionFactory
+import java.util.concurrent.locks.Lock
+import java.util.concurrent.locks.ReentrantLock
+import java.util.concurrent.locks.ReentrantReadWriteLock
+import io.sarl.util.SmartListenerCollection
+import io.sarl.util.ListenerNotifier
+import io.sarl.util.SequenceListenerNotifier
 
 /** 
  * Agent Harness to unit test behaviors, skill and capacities.
@@ -35,18 +53,90 @@ import io.sarl.core.Behaviors
  * @author Sebastian Rodriguez
  * 
  */
-agent TestingAgent {
-	val sup = new Supplier<InternalSchedules> {
+ 
+//ConcurentCollectionFactory ReadWriteLock Lock SmartCollectionListener
 
+class ReadWriteLockProvider implements Provider<ReadWriteLock> {
+	
+	def get : ReadWriteLock {
+		val readWriteLock : ReadWriteLock = new ReentrantReadWriteLock()
+		return readWriteLock
+	}
+	
+}
+
+class ConcurentCollectionFactoryProvider implements Provider<ConcurrentCollectionFactory> {
+	
+	def get : ConcurrentCollectionFactory {
+		val concurrentCollectionFactory : ConcurrentCollectionFactory = new DefaultConcurrentCollectionFactory()
+		return concurrentCollectionFactory
+	}
+	
+}
+
+class LockProvider implements Provider<Lock> {
+	
+	def get : Lock {
+		val lock : Lock = new ReentrantLock()	
+		return lock	
+	}
+	
+}
+
+class SmartListenerCollectionProvider implements Provider<SmartListenerCollection> {
+	
+	def get : SmartListenerCollection {
+		val listenerNotifier : ListenerNotifier = new SequenceListenerNotifier()
+		val smartListenerCollection : SmartListenerCollection = new SmartListenerCollection(listenerNotifier)
+		return smartListenerCollection
+	}
+	
+}
+
+ 
+class FactoryProvider implements Provider<Factories> {
+	
+	val concurrentCollectionFactoryProvider = new ConcurentCollectionFactoryProvider
+	val readWriteLockProvider = new ReadWriteLockProvider
+	val lockProvider = new LockProvider
+	val smartListenerCollectionProvider = new SmartListenerCollectionProvider
+	var factory : Factories
+	
+	def get : Factories {
+		factory = new Factories(
+			concurrentCollectionFactoryProvider, 
+			readWriteLockProvider, 
+			lockProvider,
+			smartListenerCollectionProvider
+		)
+		return factory
+	}
+	
+}
+//TODO: Have to provide the init values for the factory. As this requires providers, keep creating this providor classes until we reach a ground state
+ 
+ 
+agent TestingAgent {
+	
+	//TODO: IOC could be interesting here so that others can create their own factories
+	val factories : FactoryProvider = new FactoryProvider
+	
+	//@Inject
+	val sup = new Supplier<InternalSchedules> {
+		val agentInjector : Provider<ConfigurableAgentInjector>
+		
 		def get : InternalSchedules {
-			new SchedulesSkill(new TestingExecutorService)
+			new SchedulesSkill(new TestingExecutorService, 
+				new TaskAgentFailureEventEmitterFactory, 
+				factories,
+				agentInjector)
 		}
 
 	}
-	val eventBus = new EventBus(sup, new BehaviorGuardEvaluatorRegistry)
+
+	val eventBus = new EventBus(sup, new ReflectBehaviorGuardEvaluatorRegistry(this.factories), this.factories)
 
 	val defaultAddress = new Address(new SpaceID(this.ID, UUID.randomUUID, EventSpaceSpecification), this.ID)
-
 
 	//BICs for support
 	

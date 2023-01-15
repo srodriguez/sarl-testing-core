@@ -19,14 +19,11 @@ import io.sarl.lang.core.Space
 import io.sarl.lang.core.SpaceID
 import io.sarl.lang.core.Agent
 import io.sarl.core.AgentSpawned
+import io.sarl.lang.util.ConcurrentCollection
 
 skill BehaviorsStub implements Behaviors {
 
 	def asEventListener : EventListener {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
-	}
-
-	def getRegisteredBehaviors : ConcurrentLinkedDeque<Behavior> {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 
@@ -46,7 +43,19 @@ skill BehaviorsStub implements Behaviors {
 	def wake(^event : Event, scope : Scope<Address> = null) {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
-
+	
+	def wake(arg0 : Behavior, arg1 : Event) {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	def wake(arg0 : Iterable<Behavior>, arg1 : Event) {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	def getRegisteredBehaviors : ConcurrentCollection<Behavior> {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
 }
 
 skill LoggingStub implements Logging {
@@ -174,7 +183,6 @@ skill LoggingStub implements Logging {
 
 }
 
-
 skill DefaultContextInteractionsStub implements DefaultContextInteractions{
 	
 	def emit(^event : Event, scope : Scope<Address> = null) {
@@ -222,6 +230,18 @@ skill DefaultContextInteractionsStub implements DefaultContextInteractions{
 	}
 	
 	def willReceive(receiver : UUID, ^event : Event) {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	def emitToParent(arg0 : Event) {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	def getDefaultParentID : UUID {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	def getDefaultParentScope : Scope<Address> {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 	
