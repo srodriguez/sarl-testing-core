@@ -4,6 +4,7 @@
 package io.sarl.testing.core
 
 import io.sarl.testing.core.stubs.Behave1
+import io.sarl.testing.core.stubs.BehaviorWithInit
 import io.sarl.testing.core.stubs.Cap1
 import io.sarl.testing.core.stubs.DelegateCap
 import io.sarl.testing.core.stubs.DelegateCapSkill
@@ -13,11 +14,13 @@ import io.sarl.testing.core.stubs.E_DoNothing
 import io.sarl.testing.core.stubs.Skill1
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import static org.junit.jupiter.api.Assertions.*
 
 import static org.junit.jupiter.api.Assertions.assertNotNull
 import static org.mockito.ArgumentMatchers.*
 import static org.mockito.Mockito.*
-import io.sarl.testing.core.stubs.BehaviorWithInit
+
+import static extension io.sarl.testing.core.SarlTestExtensions.*
 
 /** 
  * @author Sebastian Rodriguez
@@ -53,7 +56,7 @@ class TestingAgentTest {
 
 		verify(skill1Mock, never).actionEmpty
 		verify(skill1Mock, never).actionWithReturn
-		verify(skill1Mock, never).actionWithParamAndReutrn(anyInt)
+		verify(skill1Mock, never).actionWithParamAndReturn(anyInt)
 
 	}
 
@@ -82,5 +85,74 @@ class TestingAgentTest {
 
 		agt.registerBehavior(new BehaviorWithInit(this.agt))
 		verify(this.skill1Mock).actionEmpty
+	}
+	
+	@Test
+	def should_have_skill {
+		
+		assertEquals(withSkill(agt, skill1Mock, Cap1), agt)
+		
+	}
+
+	@Test
+	def should_have_behavior {
+	
+		assertEquals(this.agt.withBehavior(Behave1), agt)
+		
+	}
+	
+	@Test
+	def should_have_behavior_stub {
+		
+		assertEquals(this.agt.getBehaviors, this.agt.behaviorStub)
+		
+	}
+	
+	@Test
+	def should_have_logging {
+		
+		assertEquals(this.agt.getLogging, this.agt.logging)
+		
+	}
+	 
+	@Test
+	def should_percieve_event_from_self {
+		
+		var eventDoNothing = new E_DoNothing
+		
+		assertNotEquals(eventDoNothing.getSource, agt.getDefaultAddress())
+		agt.perceiveFromSelf(eventDoNothing)
+		assertEquals(eventDoNothing.getSource, agt.getDefaultAddress())
+		
+	}
+	
+	@Test
+	def creates_smart_listener {
+
+		val smartListenerCollectionProvider = new SmartListenerCollectionProvider
+		assertEquals(smartListenerCollectionProvider.get.getClass.getName, "io.sarl.util.SmartListenerCollection")
+	}
+
+	@Test
+	def creates_lock {
+
+		val lockProvider = new LockProvider
+		assertEquals(lockProvider.get.getClass.getName, "java.util.concurrent.locks.ReentrantLock")
+	}
+
+	@Test
+	def creates_read_write_lock {
+
+		val readWriteLockProvider = new ReadWriteLockProvider
+		assertEquals(readWriteLockProvider.get.getClass.getName, "java.util.concurrent.locks.ReentrantReadWriteLock")
+	}
+
+
+	@Test
+	def creates_concurrent_collection_factory {
+
+		val concurrentCollectionFactoryProvider = new ConcurentCollectionFactoryProvider
+		assertEquals(concurrentCollectionFactoryProvider.get.getClass.getName,
+			"io.sarl.lang.util.DefaultConcurrentCollectionFactory")
 	}
 }

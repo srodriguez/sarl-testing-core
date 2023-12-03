@@ -7,7 +7,7 @@ capacity Cap1 {
 
 	def actionWithReturn : boolean
 
-	def actionWithParamAndReutrn(param : int) : String
+	def actionWithParamAndReturn(param : int) : String
 }
 
 skill Skill1 implements Cap1 {
@@ -19,7 +19,7 @@ skill Skill1 implements Cap1 {
 		return false
 	}
 
-	def actionWithParamAndReutrn(param : int) : String {
+	def actionWithParamAndReturn(param : int) : String {
 		return "Param was " + int
 	}
 

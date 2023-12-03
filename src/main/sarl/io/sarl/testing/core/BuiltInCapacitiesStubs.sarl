@@ -1,28 +1,24 @@
 package io.sarl.testing.core
 
+import io.sarl.core.AgentSpawned
 import io.sarl.core.Behaviors
+import io.sarl.core.DefaultContextInteractions
+import io.sarl.core.Logging
 import io.sarl.lang.core.Address
+import io.sarl.lang.core.Agent
+import io.sarl.lang.core.AgentContext
 import io.sarl.lang.core.Behavior
 import io.sarl.lang.core.Event
 import io.sarl.lang.core.EventListener
-import io.sarl.lang.core.Scope
-import java.util.concurrent.ConcurrentLinkedDeque
-import io.sarl.core.Logging
-import java.util.function.Supplier
-import java.util.logging.Logger
-import java.util.logging.Level
-import io.sarl.core.DefaultContextInteractions
-import io.sarl.lang.core.AgentContext
 import io.sarl.lang.core.EventSpace
-import java.util.UUID
+import io.sarl.lang.core.Scope
 import io.sarl.lang.core.Space
 import io.sarl.lang.core.SpaceID
-import io.sarl.lang.core.Agent
-import io.sarl.core.AgentSpawned
 import io.sarl.lang.util.ConcurrentCollection
-import io.sarl.core.Schedules
-import io.sarl.core.AgentTask
-import io.sarl.lang.util.ConcurrentSet
+import java.util.UUID
+import java.util.function.Supplier
+import java.util.logging.Level
+import java.util.logging.Logger
 
 skill BehaviorsStub implements Behaviors {
 

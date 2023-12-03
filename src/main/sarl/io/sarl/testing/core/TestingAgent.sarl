@@ -1,5 +1,8 @@
 package io.sarl.testing.core
 
+import io.sarl.core.Behaviors
+import io.sarl.core.Initialize
+import io.sarl.core.Logging
 import io.sarl.lang.core.Address
 import io.sarl.lang.core.Behavior
 import io.sarl.lang.core.Capacity
@@ -7,35 +10,28 @@ import io.sarl.lang.core.Event
 import io.sarl.lang.core.EventSpaceSpecification
 import io.sarl.lang.core.Skill
 import io.sarl.lang.core.SpaceID
-import io.sarl.sre.capacities.InternalSchedules
-//import io.sarl.sre.internal.eventguard.BehaviorGuardEvaluatorRegistry
-import io.sarl.sre.skills.internal.EventBus
-import java.util.UUID
-import java.util.function.Supplier
-import io.sarl.sre.skills.bic.SchedulesSkill
-import io.sarl.core.Logging
-import io.sarl.core.Initialize
-import static org.mockito.Mockito.*
-import org.eclipse.xtend.lib.annotations.Accessors
-import io.sarl.core.Behaviors
-import io.sarl.sre.internal.eventguard.reflect.ReflectBehaviorGuardEvaluatorRegistry
-import javax.inject.Provider
-import io.sarl.sre.internal.Factories
-import io.sarl.sre.internal.ConfigurableAgentInjector
-import io.sarl.sre.internal.TaskAgentFailureEventEmitterFactory
-import io.sarl.sre.boot.internal.internal.ConfigurableAgentInjectorModuleProvider
-import io.sarl.sre.boot.internal.internal.ConfigurableAgentInjectorModule
-import io.sarl.sre.internal.NopConfigurableAgentInjector
-import io.sarl.lang.util.DefaultConcurrentCollectionFactory
-import java.util.concurrent.locks.ReadWriteLock
-import javax.inject.Inject
 import io.sarl.lang.util.ConcurrentCollectionFactory
-import java.util.concurrent.locks.Lock
-import java.util.concurrent.locks.ReentrantLock
-import java.util.concurrent.locks.ReentrantReadWriteLock
-import io.sarl.util.SmartListenerCollection
+import io.sarl.lang.util.DefaultConcurrentCollectionFactory
+import io.sarl.sre.capacities.InternalSchedules
+import io.sarl.sre.internal.ConfigurableAgentInjector
+import io.sarl.sre.internal.Factories
+import io.sarl.sre.internal.TaskAgentFailureEventEmitterFactory
+import io.sarl.sre.internal.eventguard.reflect.ReflectBehaviorGuardEvaluatorRegistry
+import io.sarl.sre.skills.bic.SchedulesSkill
+import io.sarl.sre.skills.internal.EventBus
 import io.sarl.util.ListenerNotifier
 import io.sarl.util.SequenceListenerNotifier
+import io.sarl.util.SmartListenerCollection
+import java.util.UUID
+import java.util.concurrent.locks.Lock
+import java.util.concurrent.locks.ReadWriteLock
+import java.util.concurrent.locks.ReentrantLock
+import java.util.concurrent.locks.ReentrantReadWriteLock
+import java.util.function.Supplier
+import javax.inject.Provider
+
+import static org.mockito.ArgumentMatchers.*
+import static org.mockito.Mockito.*
 
 /** 
  * Agent Harness to unit test behaviors, skill and capacities.

@@ -56,7 +56,6 @@ class SarlTestExtensions {
 	}
 
 	//BIC Accessors
-	
 	def static getBehaviors(agt: TestingAgent) : Behaviors {
 		agt.behaviorStub	
 	}
