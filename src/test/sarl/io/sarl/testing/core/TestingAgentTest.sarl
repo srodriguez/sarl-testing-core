@@ -21,6 +21,7 @@ import static org.mockito.ArgumentMatchers.*
 import static org.mockito.Mockito.*
 
 import static extension io.sarl.testing.core.SarlTestExtensions.*
+import org.junit.jupiter.api.DisplayName
 
 /** 
  * @author Sebastian Rodriguez
@@ -39,17 +40,20 @@ class TestingAgentTest {
 	}
 
 	@Test
+	@DisplayName("Mocked agent should instantiate")
 	def should_instantiate {
 		assertNotNull(agt)
 	}
 
 	@Test
+	@DisplayName("Mocked agent should install attached mocked skill")
 	def should_set_skill : void {
 
 		verify(skill1Mock).install
 	}
 
 	@Test
+	@DisplayName("Mocked agent should not call skills if attached behavior calls skills")
 	def should_not_call_skills_if_behavior_doesnt : void {
 
 		agt.perceive(new E_DoNothing)
@@ -61,6 +65,7 @@ class TestingAgentTest {
 	}
 
 	@Test
+	@DisplayName("Mocked agent should call skills if attached behavior calls skills")
 	def should_call_skills_if_behavior_calls : void {
 		agt.perceive(new E_Call_ActionEmpty)
 
@@ -68,6 +73,7 @@ class TestingAgentTest {
 	}
 
 	@Test
+	@DisplayName("Mocked agent should follow intercapacity calls")
 	def should_follow_inter_capacity_calls : void {
 
 		val del = spy(DelegateCapSkill)
@@ -81,6 +87,7 @@ class TestingAgentTest {
 	}
 
 	@Test
+	@DisplayName("Mocked agent should trigger initialization when behavior attached")
 	def should_trigger_init_on_behaviors {
 
 		agt.registerBehavior(new BehaviorWithInit(this.agt))
@@ -88,6 +95,7 @@ class TestingAgentTest {
 	}
 	
 	@Test
+	@DisplayName("Mocked agent should own skill if attached")
 	def should_have_skill {
 		
 		assertEquals(withSkill(agt, skill1Mock, Cap1), agt)
@@ -95,6 +103,7 @@ class TestingAgentTest {
 	}
 
 	@Test
+	@DisplayName("Mocked agent should own behavior if attached")
 	def should_have_behavior {
 	
 		assertEquals(this.agt.withBehavior(Behave1), agt)
@@ -102,6 +111,7 @@ class TestingAgentTest {
 	}
 	
 	@Test
+	@DisplayName("Mocked agent should own behavior stub")
 	def should_have_behavior_stub {
 		
 		assertEquals(this.agt.getBehaviors, this.agt.behaviorStub)
@@ -109,6 +119,7 @@ class TestingAgentTest {
 	}
 	
 	@Test
+	@DisplayName("Mocked agent should have logging")
 	def should_have_logging {
 		
 		assertEquals(this.agt.getLogging, this.agt.logging)
@@ -116,6 +127,7 @@ class TestingAgentTest {
 	}
 	 
 	@Test
+	@DisplayName("Mocked agent should percieve events emitted from self")
 	def should_percieve_event_from_self {
 		
 		var eventDoNothing = new E_DoNothing
@@ -127,6 +139,7 @@ class TestingAgentTest {
 	}
 	
 	@Test
+	@DisplayName("Mock agent constructor should create smart listener")
 	def creates_smart_listener {
 
 		val smartListenerCollectionProvider = new SmartListenerCollectionProvider
@@ -134,6 +147,7 @@ class TestingAgentTest {
 	}
 
 	@Test
+	@DisplayName("Mock agent constructor should create lock")
 	def creates_lock {
 
 		val lockProvider = new LockProvider
@@ -141,6 +155,7 @@ class TestingAgentTest {
 	}
 
 	@Test
+	@DisplayName("Mock agent constructor should create read-write lock")
 	def creates_read_write_lock {
 
 		val readWriteLockProvider = new ReadWriteLockProvider
@@ -149,6 +164,7 @@ class TestingAgentTest {
 
 
 	@Test
+	@DisplayName("Mock agent constructor should create concurrent collection factory")
 	def creates_concurrent_collection_factory {
 
 		val concurrentCollectionFactoryProvider = new ConcurentCollectionFactoryProvider
